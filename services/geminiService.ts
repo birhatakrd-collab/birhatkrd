@@ -119,8 +119,8 @@ export const generateSeminar = async (topic: string, pages: string): Promise<str
     Write a complete academic seminar/presentation in **Kurdish Badini Dialect** about: "${topic}".
     
     **Structure Requirements:**
-    1.  **SernivÃ®s (Title)**: Creative title.
-    2.  **PÃªÅgotin (Introduction)**: Introduce the topic clearly.
+    1.  **SernivÃÂ®s (Title)**: Creative title.
+    2.  **PÃÂªÃÂgotin (Introduction)**: Introduce the topic clearly.
     3.  **Naverok (Content)**: Detailed explanation covering approximately ${targetWords} words (enough for ${pageCount} pages). Break into points/paragraphs.
     4.  **Encam (Conclusion)**: Summary of main points.
     
@@ -138,7 +138,7 @@ export const generateSeminar = async (topic: string, pages: string): Promise<str
                 temperature: 0.7,
             }
         });
-        return response.text || "BorÃ®neØ ÅaÅiyek Ã§ÃªbÃ».";
+        return response.text || "BorÃÂ®neÃÂ ÃÂaÃÂiyek ÃÂ§ÃÂªbÃÂ».";
     } catch (error) {
         console.error("Seminar error", error);
         throw error;
