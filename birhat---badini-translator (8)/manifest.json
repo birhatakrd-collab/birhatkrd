@@ -1,0 +1,21 @@
+{
+  "name": "Wergêrana Badînî",
+  "short_name": "Birhat Trans",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "description": "Professional Kurdish Badini Translator AI",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%230f172a'/%3E%3Cpath d='M160 120h100c60 0 90 30 90 80s-30 80-90 80h-60v112h-40V120zm40 120h60c30 0 50-15 50-40s-20-40-50-40h-60v80zm0 0h70c40 0 70 20 70 60s-30 60-70 60h-70V240z' fill='%23f59e0b' stroke='%23d97706' stroke-width='10'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%230f172a'/%3E%3Cpath d='M160 120h100c60 0 90 30 90 80s-30 80-90 80h-60v112h-40V120zm40 120h60c30 0 50-15 50-40s-20-40-50-40h-60v80zm0 0h70c40 0 70 20 70 60s-30 60-70 60h-70V240z' fill='%23f59e0b' stroke='%23d97706' stroke-width='10'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
