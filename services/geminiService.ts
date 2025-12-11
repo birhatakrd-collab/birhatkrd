@@ -2,35 +2,28 @@ import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_PROMPT } from '../constants';
 
 const getClient = () => {
-    // Determine the API key from various environment variable patterns
-    // Netlify (and most Node envs) use process.env
-    // Vite uses import.meta.env
+    // Attempt to retrieve the API key from multiple sources to support both 
+    // Vite (local dev/Netlify build) and standard Node environments.
     
-    let apiKey: string | undefined;
+    let apiKey = '';
 
-    // 1. Try Vite (modern frontend build)
-    // @ts-ignore
-    if (typeof import.meta !== 'undefined' && import.meta.env) {
-        // @ts-ignore
-        apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY;
+    // 1. Check for standard process.env (Netlify Build / Node)
+    if (typeof process !== 'undefined' && process.env) {
+        apiKey = process.env.API_KEY || process.env.VITE_GEMINI_API_KEY || process.env.REACT_APP_GEMINI_API_KEY || '';
     }
 
-    // 2. Fallback to process.env (Node/Webpack/Netlify Build)
-    if (!apiKey && typeof process !== 'undefined' && process.env) {
-        apiKey = process.env.VITE_GEMINI_API_KEY || 
-                 process.env.REACT_APP_GEMINI_API_KEY || 
-                 process.env.GEMINI_API_KEY ||
-                 process.env.API_KEY;
+    // 2. Check for Vite's import.meta.env (Client-side)
+    // @ts-ignore
+    if (!apiKey && typeof import.meta !== 'undefined' && import.meta.env) {
+        // @ts-ignore
+        apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || '';
     }
 
     if (!apiKey) {
-        console.warn("API Key is missing. Ensure VITE_GEMINI_API_KEY or API_KEY is set in your Netlify Environment Variables.");
-        // We do not throw here to allow the app to load, but API calls will fail.
+        console.error("API Key is missing. Please set 'API_KEY' (or 'VITE_GEMINI_API_KEY') in your Netlify Environment Variables.");
     }
     
-    // As per guidelines: The API key must be obtained exclusively from the environment variable process.env.API_KEY
-    // We pass the resolved apiKey string.
-    return new GoogleGenAI({ apiKey: apiKey || '' });
+    return new GoogleGenAI({ apiKey: apiKey });
 }
 
 export const translateText = async (
@@ -56,7 +49,7 @@ export const translateText = async (
   // Config for Image content
   let contents: any = prompt;
   if (imageBase64) {
-      // CRITICAL FIX: The API expects pure base64 without the dataURI prefix
+      // Clean base64 string
       const cleanBase64 = imageBase64.split(',')[1] || imageBase64;
       
       contents = {
@@ -70,7 +63,7 @@ export const translateText = async (
   try {
     const ai = getClient();
     const response = await ai.models.generateContent({
-      model: imageBase64 ? 'gemini-2.5-flash' : 'gemini-2.5-flash', 
+      model: 'gemini-2.5-flash', 
       contents: contents,
       config: {
         systemInstruction: SYSTEM_PROMPT,
@@ -81,6 +74,10 @@ export const translateText = async (
     return response.text || "";
   } catch (error: any) {
     console.error("Translation error:", error);
+    // Return a user-friendly error if it's an API key issue
+    if (error.message?.includes('API key')) {
+        return "Error: API Key is invalid or missing. Please check your Netlify configuration.";
+    }
     throw new Error("Translation failed. Please try again.");
   }
 };
@@ -111,7 +108,6 @@ export const fixGrammar = async (text: string, langName: string): Promise<string
 
 export const generateSeminar = async (topic: string, pages: string): Promise<string> => {
     const pageCount = parseInt(pages) || 1;
-    // Estimate words: 1 page ~ 300 words
     const targetWords = pageCount * 300;
 
     const prompt = `
