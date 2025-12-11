@@ -1,8 +1,0 @@
-{
-  "name": "Birhat - Badini Translator",
-  "description": "A professional translator application specialized in Kurdish Badini dialect, featuring a dark gold-accented design.",
-  "requestFramePermissions": [
-    "microphone",
-    "clipboard-read"
-  ]
-}

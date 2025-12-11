@@ -12,7 +12,7 @@ const getClient = () => {
     // @ts-ignore
     if (typeof import.meta !== 'undefined' && import.meta.env) {
         // @ts-ignore
-        apiKey = import.meta.env.VITE_GEMINI_API_KEY || 'FAKE_API_KEY_FOR_DEVELOPMENT';
+        apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     }
 
     // 2. Fallback to process.env (Standard React/Node)
@@ -20,7 +20,7 @@ const getClient = () => {
         apiKey = process.env.VITE_GEMINI_API_KEY || 
                  process.env.REACT_APP_GEMINI_API_KEY || 
                  process.env.GEMINI_API_KEY ||
-                 process.env.API_KEY || 'FAKE_API_KEY_FOR_DEVELOPMENT';
+                 process.env.API_KEY;
     }
 
     if (!apiKey) {
@@ -119,8 +119,8 @@ export const generateSeminar = async (topic: string, pages: string): Promise<str
     Write a complete academic seminar/presentation in **Kurdish Badini Dialect** about: "${topic}".
     
     **Structure Requirements:**
-    1.  **SernivÃÂ®s (Title)**: Creative title.
-    2.  **PÃÂªÃÂgotin (Introduction)**: Introduce the topic clearly.
+    1.  **Sernivîs (Title)**: Creative title.
+    2.  **Pêşgotin (Introduction)**: Introduce the topic clearly.
     3.  **Naverok (Content)**: Detailed explanation covering approximately ${targetWords} words (enough for ${pageCount} pages). Break into points/paragraphs.
     4.  **Encam (Conclusion)**: Summary of main points.
     
@@ -138,7 +138,7 @@ export const generateSeminar = async (topic: string, pages: string): Promise<str
                 temperature: 0.7,
             }
         });
-        return response.text || "BorÃÂ®neÃÂ ÃÂaÃÂiyek ÃÂ§ÃÂªbÃÂ».";
+        return response.text || "Borîne، şaşiyek çêbû.";
     } catch (error) {
         console.error("Seminar error", error);
         throw error;

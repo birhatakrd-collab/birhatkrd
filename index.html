@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#020617" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="WergÃÂªrana BadÃÂ®nÃÂ®" />
+    <meta name="apple-mobile-web-app-title" content="Wergêrana Badînî" />
     
     <!-- App Logo / Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%230f172a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='300' fill='%23f59e0b' style='filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.5));'%3EB%3C/text%3E%3C/svg%3E" />
@@ -14,7 +14,8 @@
 
     <link rel="manifest" href="/manifest.json" />
 
-    <title>ÃÂÃÂÃÂ±ÃÂ¯ÃÂÃÂ±ÃÂ§ÃÂÃÂ§ ÃÂ¨ÃÂ§ÃÂ¯ÃÂÃÂÃÂ - Birhat</title>
+    <title>وەرگێرانا بادینی - Birhat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
@@ -139,10 +140,55 @@
         100% { top: 100%; opacity: 0; }
       }
     </style>
-    <link rel="stylesheet" href="/index.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Rabar_040"', '"Noto Sans Arabic"', 'sans-serif'],
+            },
+            colors: {
+              gold: {
+                50: '#fffbeb',
+                100: '#fef3c7',
+                200: '#fde68a',
+                300: '#fcd34d',
+                400: '#fbbf24',
+                500: '#f59e0b', // Base Gold
+                600: '#d97706',
+                700: '#b45309',
+                800: '#92400e',
+                900: '#78350f',
+                950: '#451a03',
+              },
+              dark: {
+                800: '#1e293b',
+                900: '#0f172a', 
+                950: '#020617', // Deepest Dark
+              }
+            },
+            animation: {
+              'spin-slow': 'spin 3s linear infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.32.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0"
+  }
+}
+</script>
 </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+  </body>
 </html>

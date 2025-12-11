@@ -9,7 +9,7 @@ interface LanguageSelectProps {
   variant?: 'source' | 'target';
 }
 
-export const LanguageSelect: React.FC<LanguageSelectProps> = ({ options, selected, onChange, variant = 'source' }) => {
+export const LanguageSelect: React.FC<LanguageSelectProps> = ({ options = [], selected, onChange, variant = 'source' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -24,13 +24,17 @@ export const LanguageSelect: React.FC<LanguageSelectProps> = ({ options, selecte
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Safety check to prevent crashes
+  if (!selected) return null;
+
   const getFlagUrl = (option: LanguageOption) => {
     if (option.customFlag) return option.customFlag;
     if (option.flagCode) return `https://flagcdn.com/w40/${option.flagCode}.png`;
     return null;
   };
 
-  const filteredOptions = options.filter(opt => 
+  const safeOptions = Array.isArray(options) ? options : [];
+  const filteredOptions = safeOptions.filter(opt => 
     opt.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     opt.code.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -61,16 +65,19 @@ export const LanguageSelect: React.FC<LanguageSelectProps> = ({ options, selecte
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 left-0 md:left-auto md:right-0 w-64 bg-dark-900 border border-gold-900/50 rounded-xl shadow-2xl shadow-black z-50 overflow-hidden backdrop-blur-xl ring-1 ring-gold-500/10 flex flex-col origin-top-right animate-in fade-in zoom-in-95 duration-200">
+        <div 
+            className="absolute top-full mt-2 right-0 w-64 bg-dark-900 border border-gold-900/50 rounded-xl shadow-2xl shadow-black z-50 overflow-hidden backdrop-blur-xl ring-1 ring-gold-500/10 flex flex-col origin-top-right animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+        >
           
-          {/* Search Input */}
+          {/* Search Input - Optimized for RTL */}
           <div className="p-2 border-b border-white/5 sticky top-0 bg-dark-900 z-10">
               <div className="relative">
-                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <Search size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500" />
                   <input 
                     type="text" 
                     placeholder="لێگەریان..." 
-                    className="w-full bg-dark-950 border border-white/10 rounded-lg py-2 pl-9 pr-3 text-xs text-slate-200 focus:outline-none focus:border-gold-500/50"
+                    className="w-full bg-dark-950 border border-white/10 rounded-lg py-2 pr-9 pl-3 text-xs text-slate-200 focus:outline-none focus:border-gold-500/50 text-right"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     dir="rtl"
