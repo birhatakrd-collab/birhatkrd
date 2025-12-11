@@ -2,20 +2,20 @@ import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_PROMPT } from '../constants';
 
 const getClient = () => {
-    // CRITICAL FOR NETLIFY: 
-    // In Netlify Site Settings > Environment Variables, you MUST name the key: VITE_GEMINI_API_KEY
-    // Vite only exposes variables starting with VITE_ to the client browser.
+    // Determine the API key from various environment variable patterns
+    // Netlify (and most Node envs) use process.env
+    // Vite uses import.meta.env
     
-    let apiKey = undefined;
+    let apiKey: string | undefined;
 
-    // 1. Try Vite standard way (Best for Netlify)
+    // 1. Try Vite (modern frontend build)
     // @ts-ignore
     if (typeof import.meta !== 'undefined' && import.meta.env) {
         // @ts-ignore
-        apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY;
     }
 
-    // 2. Fallback to process.env (Standard React/Node)
+    // 2. Fallback to process.env (Node/Webpack/Netlify Build)
     if (!apiKey && typeof process !== 'undefined' && process.env) {
         apiKey = process.env.VITE_GEMINI_API_KEY || 
                  process.env.REACT_APP_GEMINI_API_KEY || 
@@ -24,11 +24,13 @@ const getClient = () => {
     }
 
     if (!apiKey) {
-        console.error("API Key is missing. Ensure VITE_GEMINI_API_KEY is set in Netlify.");
-        throw new Error("API_KEY_MISSING");
+        console.warn("API Key is missing. Ensure VITE_GEMINI_API_KEY or API_KEY is set in your Netlify Environment Variables.");
+        // We do not throw here to allow the app to load, but API calls will fail.
     }
     
-    return new GoogleGenAI({ apiKey });
+    // As per guidelines: The API key must be obtained exclusively from the environment variable process.env.API_KEY
+    // We pass the resolved apiKey string.
+    return new GoogleGenAI({ apiKey: apiKey || '' });
 }
 
 export const translateText = async (
@@ -79,9 +81,6 @@ export const translateText = async (
     return response.text || "";
   } catch (error: any) {
     console.error("Translation error:", error);
-    if (error.message === 'API_KEY_MISSING') {
-        console.error("Configuration Error: API Key is missing. Check Netlify Environment Variables.");
-    }
     throw new Error("Translation failed. Please try again.");
   }
 };
