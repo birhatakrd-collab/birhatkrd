@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { SYSTEM_PROMPT } from '../constants';
+import { SYSTEM_PROMPT } from '../constants.ts';
 
 const getClient = () => {
     // Attempt to retrieve the API key from multiple sources to support both 
@@ -19,8 +19,16 @@ const getClient = () => {
         apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || '';
     }
 
+    // 3. Fallback for manually injected window variables (sometimes used in static sites)
+    if (!apiKey && typeof window !== 'undefined') {
+        // @ts-ignore
+        apiKey = window.ENV?.API_KEY || '';
+    }
+
     if (!apiKey) {
-        console.error("API Key is missing. Please set 'API_KEY' (or 'VITE_GEMINI_API_KEY') in your Netlify Environment Variables.");
+        console.error("API Key is missing. Please set 'API_KEY' in your Netlify Environment Variables.");
+        // If you are testing locally without a build step, you might need to temporarily paste your key here
+        // apiKey = "YOUR_API_KEY_HERE"; 
     }
     
     return new GoogleGenAI({ apiKey: apiKey });

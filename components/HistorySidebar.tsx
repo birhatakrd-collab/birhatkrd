@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock, Trash2, ArrowRight } from 'lucide-react';
-import { TranslationHistoryItem } from '../types';
+import { TranslationHistoryItem } from '../types.ts';
 
 interface HistorySidebarProps {
   history: TranslationHistoryItem[];

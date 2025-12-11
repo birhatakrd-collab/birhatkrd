@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check, Sparkles, Search } from 'lucide-react';
-import { LanguageOption } from '../types';
+import { LanguageOption } from '../types.ts';
 
 interface LanguageSelectProps {
   options: LanguageOption[];

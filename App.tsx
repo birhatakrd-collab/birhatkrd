@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, Component, ErrorInfo } from 'react';
 import { ArrowLeftRight, Sparkles, Copy, Check, RotateCcw, Menu, Volume2, Share2, Info, Instagram, Ghost, X, Loader2, ClipboardPaste, ThumbsUp, Maximize2, WifiOff, Briefcase, GraduationCap, ChevronLeft, ShieldCheck, Book, Star, Trash2, Clock, Image as ImageIcon, Wand2, Download, Construction, Save, Upload, Languages, Send, RefreshCw } from 'lucide-react';
-import { LanguageSelect } from './components/LanguageSelect';
-import { HistorySidebar } from './components/HistorySidebar';
-import { translateText, fixGrammar } from './services/geminiService';
-import { SUPPORTED_LANGUAGES, DEFAULT_SOURCE_LANG, DEFAULT_TARGET_LANG } from './constants';
-import { LanguageOption, LoadingState, TranslationHistoryItem, FavoriteItem } from './types';
+import { LanguageSelect } from './components/LanguageSelect.tsx';
+import { HistorySidebar } from './components/HistorySidebar.tsx';
+import { translateText, fixGrammar } from './services/geminiService.ts';
+import { SUPPORTED_LANGUAGES, DEFAULT_SOURCE_LANG, DEFAULT_TARGET_LANG } from './constants.ts';
+import { LanguageOption, LoadingState, TranslationHistoryItem, FavoriteItem } from './types.ts';
 
 // --- Error Boundary Component ---
 class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean, error: Error | null }> {
@@ -468,7 +468,7 @@ function AppContent() {
             <button
                 onClick={handleTranslate}
                 disabled={loadingState === LoadingState.LOADING || (!inputText.trim() && !selectedImage)}
-                className={`relative z-10 w-full md:w-auto md:px-32 py-4 rounded-2xl font-bold text-lg shadow-2xl overflow-hidden transition-all duration-300 ${(!inputText.trim() && !selectedImage) ? 'bg-white/5 text-slate-600 cursor-not-allowed border border-white/5' : 'bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 text-dark-950 hover:shadow-gold-500/40 hover:scale-[1.02] border border-gold-400/30'}`}
+                className={`relative z-10 w-full md:w-auto md:px-32 py-4 rounded-2xl font-bold text-lg shadow-2xl overflow-hidden transition-all duration-300 ${(!inputText.trim() && !selectedImage) ? 'bg-white/5 text-slate-600 cursor-not-allowed border border-white/5' : 'bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 text-dark-950 hover:shadow-gold-500/40'}`}
             >
                 {loadingState === LoadingState.LOADING ? (
                      <div className="flex items-center justify-center gap-3"><Loader2 size={22} className="animate-spin" /><span>خەریکە...</span></div>

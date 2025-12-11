@@ -16,8 +16,10 @@
 
     <title>وەرگێرانا بادینی - Birhat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Add Babel Standalone -->
+    
+    <!-- Babel Standalone for in-browser compilation -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
@@ -36,6 +38,7 @@
       
       *, button, input, textarea, h1, h2, h3, h4, h5, h6, p, span, div, a {
         font-family: 'Rabar_040', 'Noto Sans Arabic', sans-serif !important;
+        background-color: #020617; /* Fallback */
       }
 
       /* Professional Scrollbar */
@@ -192,6 +195,7 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Updated to use babel for transpilation -->
     <script type="text/babel" data-type="module" src="/index.tsx" data-presets="react,typescript"></script>
   </body>
 </html>
